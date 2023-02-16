@@ -1,8 +1,7 @@
 from copy import deepcopy
 import random
 
-from games import Game
-from algo_components.node import Node
+from node import Node
 
 
 def random_policy(valid_moves) -> dict:
@@ -18,7 +17,7 @@ def sample(policy):
     return random.choices(policy["moves"], weights=policy["probs"])[0]
 
 
-def rollout(game: Game):
+def rollout(game):
     current_player = game.get_current_player()
     while True:
         move = sample(random_policy(game.get_valid_moves()))
@@ -31,7 +30,7 @@ def rollout(game: Game):
         return 1 if winner == current_player else -1
 
 
-def mcts_one_iter(game: Game, root: Node, policy_value_fn=None):
+def mcts_one_iter(game, root: Node, policy_value_fn=None):
 
     # each node represent a game state; each edge represents a move
 

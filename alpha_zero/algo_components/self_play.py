@@ -1,8 +1,8 @@
 from typing import Callable, Tuple
 import numpy as np
 
-from algo_components.node import Node
-from algo_components.mcts import mcts_one_iter
+from node import Node
+from mcts import mcts_one_iter
 
 
 def generate_self_play_data(
@@ -10,7 +10,7 @@ def generate_self_play_data(
         num_mcts_iter: int,
         high_temp_for_first_n: int,
         policy_value_fn: Callable = None,
-        has_audience: bool = False,
+        print_board: bool = False,
 ) -> Tuple[np.array, np.array, np.array]:
 
     """Let guided MCTS play against itself"""
@@ -24,7 +24,7 @@ def generate_self_play_data(
     while True:
 
         state = game.board * game.get_current_player()  # for nn
-        if has_audience:
+        if print_board:
             print(game)
 
         root = Node(parent=None, prior_prob=1.0)
@@ -43,7 +43,7 @@ def generate_self_play_data(
         done, winner = game.evolve(move)
         num_actions_take += 1
         if done:
-            if has_audience:
+            if print_board:
                 print(game)
             break
 

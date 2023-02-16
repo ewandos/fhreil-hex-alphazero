@@ -2,14 +2,14 @@ from ast import literal_eval
 import torch
 import numpy as np
 
-from games import Connect4
+from hex import Hex
 from algo_components import Node, mcts_one_iter, PolicyValueNet
 
 
-game = Connect4()
+game = Hex()
 
 policy_value_net = PolicyValueNet(*game.board.shape)
-policy_value_net.load_state_dict(torch.load("trained_models/pvnet_3000.pth", map_location=torch.device('cpu')))
+policy_value_net.load_state_dict(torch.load("trained_models/pvnet_10.pth", map_location=torch.device('cpu')))
 
 print(game)
 
@@ -32,7 +32,7 @@ while True:
     else:
 
         move = literal_eval(input("What's your move: "))
-        move = (move[0] - 1, move[1] - 1)
+        move = (move[0], move[1])
 
     done, winner = game.evolve(move)
     if game.get_previous_player() == -1:

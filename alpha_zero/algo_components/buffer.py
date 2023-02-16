@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 
-from algo_components.utils import get_device
+from utils import get_device
 
 
 def maybe_fliplr(array, do_the_flip):

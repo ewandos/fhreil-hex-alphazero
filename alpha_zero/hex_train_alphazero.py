@@ -11,23 +11,23 @@ import torch.optim as optim
 import wandb
 from tqdm import tqdm
 
-from games import Connect4
+from hex import Hex
 from algo_components import PolicyValueNet, Buffer, generate_self_play_data, play_one_game_against_pure_mcts, get_device
 
 
 wandb.init(
     project="alphazero",
-    entity="yangz2",
+    entity="fhtwreil",
     settings=wandb.Settings(_disable_stats=True),
     name=f'test'
 )
 
 # @@@@@@@@@@ hyper-parameters @@@@@@@@@@
 
-game_klass = Connect4
-num_games_for_training = 3000  # in total, 3000 self-play games will be played
+game_klass = Hex
+num_games_for_training = 10  # in total, 3000 self-play games will be played
 num_grad_steps = 50
-eval_freq = 1000  # evaluate alphazero once per 1000 self-play games
+eval_freq = 10  # evaluate alphazero once per 1000 self-play games
 eval_num_games = 5  # 5 first-hand games, 5 second-hand games
 buffer_size = 20000
 batch_size = 512

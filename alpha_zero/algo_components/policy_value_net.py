@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 
-from algo_components.utils import get_device
+from utils import get_device
 
 
 class PolicyValueNet(nn.Module):
