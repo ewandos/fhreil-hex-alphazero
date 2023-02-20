@@ -9,7 +9,7 @@ from algo_components import Node, mcts_one_iter, PolicyValueNet
 game = Hex()
 
 policy_value_net = PolicyValueNet(*game.board.shape)
-policy_value_net.load_state_dict(torch.load("trained_models/pvnet_10.pth", map_location=torch.device('cpu')))
+policy_value_net.load_state_dict(torch.load("trained_models/pvnet_100.pth", map_location=torch.device('cpu')))
 
 print(game)
 

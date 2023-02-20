@@ -1,19 +1,5 @@
-## Code tutorial 
+# AlphaZero for Hex
 
-Please first make sure that your working directory is `alpha_zero` by `cd alpha_zero`.
+Execute `hex_train_alphazero` to train a new model. The new `.pth` file will be created in the „trained_models“ folder, indicating the number of self-played games in the file name. Further, it is possible to manipulate the hyper-parameters in the script, like the number of games, the evaluation frequency, and the number of grad steps to update the policy-value network.
 
-How to play against pure MCTS (early moves can take up to 25 seconds but later moves are quicker): 
-
-`python connect4_mcts_vs_human.py`
-
-How to play against pre-trained AlphaZero (moves are fast): 
-
-`python connect4_alphazero_vs_human.py`
-
-How to train AlphaZero from scratch (3000 self-play games & supervised learning takes around 7-8 hours on GPU): 
-
-`python connect4_train_alphazero.py`
-
-Within the training script, you will see `wandb.init`. `wandb` stands for Weights and Biases, a website for tracking machine learning training runs. You can learn about it from their website or their YouTube channel, and change my username and run name to yours. Here, during training, the parameters of the convolutional policy-value network is saved locally as a `pth` file, but they are all uploaded to the cloud (i.e., to `wandb`). This was convenient for me because I didn't know how to download a file from a remote machine. 
-
-After training has finished, you can put `pvnet_3000.pth` in `trained_models` (in `alpha_zero`) and `connect4_alphazero_vs_human.py` will automatically use it.
+Execute `hex_alphazero_vs_human` to play a hex game against a trained model. To use a specific model, modify the filename in line 12 to match the desired model in the „trained_models“ folder. When executed, the script will initiate a new 5x5 hex game in the console, printing the board and the move probabilities after every step. AlphaZero will move first every time. To make a move enter two digits like „0,1“ to place a stone in the first row, second column.

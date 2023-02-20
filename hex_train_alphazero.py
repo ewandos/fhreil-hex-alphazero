@@ -1,33 +1,17 @@
-"""
-Name: connect4_train_alphazero.py
-Desc: Training script for AlphaZero on game Connect4.
-Author: Zhihan Yang
-Date: August 14, 2021
-"""
-
 import numpy as np
 import torch
 import torch.optim as optim
-import wandb
 from tqdm import tqdm
 
 from hex import Hex
 from algo_components import PolicyValueNet, Buffer, generate_self_play_data, play_one_game_against_pure_mcts, get_device
 
-
-wandb.init(
-    project="alphazero",
-    entity="fhtwreil",
-    settings=wandb.Settings(_disable_stats=True),
-    name=f'test'
-)
-
 # @@@@@@@@@@ hyper-parameters @@@@@@@@@@
 
 game_klass = Hex
-num_games_for_training = 10  # in total, 3000 self-play games will be played
+num_games_for_training = 1000  # in total, 3000 self-play games will be played
 num_grad_steps = 50
-eval_freq = 10  # evaluate alphazero once per 1000 self-play games
+eval_freq = 100  # evaluate alphazero once per 1000 self-play games
 eval_num_games = 5  # 5 first-hand games, 5 second-hand games
 buffer_size = 20000
 batch_size = 512
@@ -53,10 +37,6 @@ for game_idx in tqdm(range(num_games_for_training)):  # for each self-play game 
         policy_value_fn=policy_value_net.policy_value_fn,
         high_temp_for_first_n=3
     )
-
-    # add the self-play data into a buffer; the buffer also augments the self-play data using geometries
-    # we do this because generating self-play data is a time-consuming process, especially when
-    # our MCTS is implemented in pure Python code
 
     buffer.push(states, mcts_probs, zs)
 
@@ -117,4 +97,4 @@ for game_idx in tqdm(range(num_games_for_training)):  # for each self-play game 
         print(f"Score (second-hand): {round(mean_second_hand_score, 2)}")
         print(f"Score (overall): {round(mean_score, 2)}")
 
-        torch.save(policy_value_net.state_dict(), f"{wandb.run.dir}/pvnet_{game_idx+1}.pth")
+        torch.save(policy_value_net.state_dict(), f"trained_models/pvnet_{game_idx+1}.pth")
